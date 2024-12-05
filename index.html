@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Evaluating scientific figure interpretation capabilities of large multimodal models">
+  <meta name="keywords" content="SciFIBench, Scientific Figure Interpretation Benchmark">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> SciFIBench </title>
+  <style>
+    #BibTeX {
+      text-align: left;
+    }
+  </style>
+
+  <link rel="icon" href="./static/images/SciFIBench_S.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/leaderboard.css">
+
+  <!-- <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bulma.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script> -->
+  <script type="text/javascript" src="static/js/sort-table.js" defer></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/explorer-index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <!-- <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a> -->
+      <!-- @PAN TODO: consider adding links? -->
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Other Projects
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://satinbenchmark.github.io/">
+            <b>SATIN</b>
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2306.00020">
+            <b>GPT4GEO</b>
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2311.14656">
+            <b>Charting New Territories</b>
+          </a>
+          <a class="navbar-item" href="https://grab-benchmark.github.io/">
+            <b>GRAB</b>
+          </a>
+          <a class="navbar-item" href="https://needle-threading.github.io/">
+            <b>Needle Threading</b>
+          </a>          
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title is-bold">
+               <span class="scifibench">SciFIBench</span>
+            </h1>
+          <h2 class="subtitle is-4 publication-subtitle">
+            Benchmarking Large Multimodal Models for Scientific Figure Interpretation
+          </h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/jonathan-roberts1">Jonathan Roberts</a><sup style="color:#091e2edb">1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.kaihan.org/">Kai Han</a><sup style="color:#67c723">2</sup>,</span>
+              <span class="author-block">
+                <a href="https://neilhoulsby.github.io/">Neil Houlsby</a><sup style="color:#4e2ecb">3</sup>,</span>
+            <span class="author-block">
+              <a href="https://samuelalbanie.com/">Samuel Albanie</a><sup style=></sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup style="color:#091e2edb">1</sup>University of Cambridge,</span>
+            <span class="author-block"><sup style="color:#67c723">2</sup>The University of Hong Kong</span>
+            <span class="author-block"><sup style="color:#4e2ecb">3</sup>Google DeepMind</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">NeurIPS 2024</span></div>
+        
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2405.08807"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- arXiv -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2405.08807"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/jonathan-roberts1/SciFIBench"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/jonathan-roberts1/SciFIBench"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <!-- <i class="far fa-images"></i> -->
+                      <p style="font-size:18px">🤗</p>
+                      <!-- 🔗 -->
+                  </span>
+                  <span>Dataset</span>
+                </a>
+              </span>
+              <!-- Leaderboard Link. 
+              <span class="link-block">
+                <a href="https://grab-benchmark.github.io/#leaderboard"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <p style="font-size:18px">🏆</p>
+                  </span>
+                  <span>Leaderboard</span>
+                </a>
+              </span>-->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="margin-top: -150px; margin-bottom: -100px;">
+    <div class="columns is-centered m-6">
+      <div class="column is-full has-text-centered content">
+        <div class="justified" style="width: 80%; margin: 0 auto;">
+          <img src="static/images/SciFIBench_overview.png" alt="SciFIBench overview" style="width: 100%;">
+          <p style="width: 100%;"><b>SciFIBench curation and evaluation.</b> We use adversarial filtering and human verification to curate challenging high-quality multiple-choice scientific figure interpretation questions from arXiv papers. We evaluate benchmark the capabilities of LMMs across single and multi-image tasks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Overview</h2>
+        <div class="content has-text-justified">
+          <p>Large multimodal models (LMMs) have proven flexible and generalisable across many tasks and fields. Although they have strong potential to aid scientific research, their capabilities in this domain are not well characterised. A key aspect of scientific research is the ability to understand and interpret figures, which serve as a rich, compressed source of complex information.</p>
+          <p>
+            We introduce <b>SciFIBench</b> (<b>S</b>cientific <b>F</b>igure <b>I</b>nterpretation <b>Bench</b>mark), a benchmark consisting of 2000 questions split between two tasks across 8 categories. The questions are curated from arXiv paper figures and captions, using adversarial filtering to find hard negatives and human verification for quality control. We evaluate 28 LMMs on SciFIBench, finding it to be a challenging benchmark.</p>
+          </p>
+          <p>
+            Additionally, we conduct an analysis of model performance across different question properties, explore caption generation capabilities and investigate the alignment and reasoning faithfulness of the LMMs on augmented question sets from our benchmark.
+          </p>
+        </div>
+      </div>
+</div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="container" style="margin-top: -10px; margin-bottom: -10px">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 scifibench" id="leaderboard">
+    <span class="scifibench" style="vertical-align: middle">Dataset Statistics & Curation</span>
+  </h1>
+  </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="margin-top: -80px">
+    <div class="columns is-centered has-text-centered">
+      <!-- <div class="column is-full-width has-text-centered"> -->
+        <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+<div id="results-carousel" class="carousel results-carousel">
+  <div class="box m-5">
+    <div class="content has-text-centered">
+      <img src="static/images/cs_pie.png" alt="cs_pie" width="35%"/> <img src="static/images/general_pie.png" alt="general_pie" width="35%"/>
+<p>SciFIBench consists of 2000 questions equally split into two sets (General and CS) based on the arXiv category of the source data.
+</p>
+    </div>
+  </div>
+  <div class="box m-5">
+    <div class="content has-text-centered">
+      <img src="static/images/caption_figure_stats.png" alt="complexity" width="100%"/>
+<p>The questions include a variety of caption lengths and figure resolutions.
+</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="container" style="margin-top: -10px; margin-bottom: -10px">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 scifibench" id="leaderboard">
+    <span class="scifibench" style="vertical-align: middle">Main Results</span>
+  </h1>
+  </div>
+  </div>
+</section>
+
+<section class="section"></section>
+<div class="container" style="margin-top: -100px">
+    
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+        <p>
+          <ul class="two-columns">
+          <li>SciFIBench is a challenging benchmark</li>
+          <li>Closed-source models perform better</li>
+          <li>Caption -> Figure is harder</li>
+          <li>VLMs remain strong baselines</li>
+          <li>Humans are a stronger baseline</li>
+          <li>Multimodality improves performance</li>
+          </ul> 
+        </p>
+
+        <table class="js-sort-table" id="results">
+          <tr>
+            <td class="js-sort-number"><strong>Model</strong></td>
+            <td class="js-sort-number"><weak><u>CS</u> <i>Fig.→Cap.</i></weak></td>
+            <td class="js-sort-number"><weak><u>CS</u> <i>Cap.→Fig.</i></weak></td>
+            <td class="js-sort-number"><weak><u>General</u> <i>Fig.→Cap.</i></weak></td>
+            <td class="js-sort-number"><weak><u>General</u> <i>Cap.→Fig.</i></weak></td>
+            <td class="js-sort-number"><strong><u>Overall</u> <i>Fig.→Cap.</i></strong></td>
+            <td class="js-sort-number"><strong><u>Overall</u> <i>Cap.→Fig.</i></strong></td>
+          </tr>
+          <tr>
+            <td><b>GPT-4V</b></td>
+            <td>69.4</td>
+            <td>58.4</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>GPT-4 Turbo</b></td>
+            <td>68.0</td>
+            <td>60.6</td>
+            <td>62.8</td>
+            <td>55.2</td>
+            <td>65.4</td>
+            <td>57.9</td>
+          </tr>
+          <tr>
+            <td><b>GPT-4o</b></td>
+            <td><b>75.4</b></td>
+            <td>72.2</td>
+            <td><b>72.2</b></td>
+            <td>58.6</td>
+            <td><b>73.8</b></td>
+            <td>65.4</td>
+          </tr>
+          <tr>
+            <td><b>Gemini Pro Vision</b></td>
+            <td>56.0</td>
+            <td>52.4</td>
+            <td>50.6</td>
+            <td>39.6</td>
+            <td>53.3</td>
+            <td>46.0</td>
+          </tr>
+          <tr>
+            <td><b>Gemini 1.5 Pro</b></td>
+            <td>74.0</td>
+            <td><b>76.0</b></td>
+            <td>65.2</td>
+            <td>56.2</td>
+            <td>69.6</td>
+            <td><b>66.1</b></td>
+          </tr>
+          <tr>
+            <td><b>Gemini 1.5 Flash</b></td>
+            <td>74.4</td>
+            <td>69.6</td>
+            <td>65.8</td>
+            <td><b>62.4</b></td>
+            <td>70.1</td>
+            <td><b>66.1</b></td>
+          </tr>
+          <tr>
+            <td><b>Claude 3 Haiku</b></td>
+            <td>52.6</td>
+            <td>43.8</td>
+            <td>52.6</td>
+            <td>33.0</td>
+            <td>52.6</td>
+            <td>38.4</td>
+          </tr>
+          <tr>
+            <td><b>Claude 3 Sonnet</b></td>
+            <td>53.4</td>
+            <td>58.4</td>
+            <td>53.6</td>
+            <td>55.0</td>
+            <td>53.5</td>
+            <td>56.7</td>
+          </tr>
+          <tr>
+            <td><b>Claude 3 Opus</b></td>
+            <td>59.8</td>
+            <td>49.2</td>
+            <td>50.8</td>
+            <td>47.4</td>
+            <td>55.3</td>
+            <td>48.3</td>
+          </tr>
+          <tr>
+            <td><b>IDEFICS-9b-Instruct</b></td>
+            <td>20.6</td>
+            <td>20.2</td>
+            <td>17.6</td>
+            <td>12.6</td>
+            <td>19.1</td>
+            <td>16.4</td>
+          </tr>
+          <tr>
+            <td><b>IDEFICS-80b-Instruct</b></td>
+            <td>20.6</td>
+            <td><b>24.2</b></td>
+            <td>18.4</td>
+            <td><b>20.6</b></td>
+            <td>19.5</td>
+            <td><b>22.4</b></td>
+          </tr>
+          <tr>
+            <td><b>Qwen-VL-Chat</b></td>
+            <td>28.0</td>
+            <td>16.0</td>
+            <td>17.0</td>
+            <td>19.2</td>
+            <td>22.5</td>
+            <td>17.6</td>
+          </tr>
+          <tr>
+            <td><b>Emu2</b></td>
+            <td>20.8</td>
+            <td>-</td>
+            <td>19.6</td>
+            <td>-</td>
+            <td>20.2</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>TransCore-M</b></td>
+            <td><b>51.0</b></td>
+            <td>-</td>
+            <td><b>27.4</b></td>
+            <td>-</td>
+            <td><b>39.2</b></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>InternLM-XComposer-7b</b></td>
+            <td>34.0</td>
+            <td>-</td>
+            <td>21.6</td>
+            <td>-</td>
+            <td>27.8</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>InternLM-XComposer2-7b</b></td>
+            <td>28.0</td>
+            <td>-</td>
+            <td>23.8</td>
+            <td>-</td>
+            <td>25.9</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>CogVLM-Chat</b></td>
+            <td>40.8</td>
+            <td>-</td>
+            <td>24.0</td>
+            <td>-</td>
+            <td>32.4</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>OmniLMM-3b</b></td>
+            <td>35.8</td>
+            <td>-</td>
+            <td>24.8</td>
+            <td>-</td>
+            <td>30.3</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>OmniLMM-12b</b></td>
+            <td>34.2</td>
+            <td>-</td>
+            <td>27.2</td>
+            <td>-</td>
+            <td>30.7</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>Yi-VL-6b</b></td>
+            <td>41.4</td>
+            <td>-</td>
+            <td>27.0</td>
+            <td>-</td>
+            <td>34.2</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>Yi-VL-34b</b></td>
+            <td>32.6</td>
+            <td>-</td>
+            <td>21.4</td>
+            <td>-</td>
+            <td>27.0</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>InstructBLIP-FlanT5-xl</b></td>
+            <td>35.8</td>
+            <td>-</td>
+            <td>19.0</td>
+            <td>-</td>
+            <td>27.4</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>InstructBLIP-FlanT5-xxl</b></td>
+            <td>36.2</td>
+            <td>-</td>
+            <td>26.8</td>
+            <td>-</td>
+            <td>31.5</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>InstructBLIP-Vicuna-7b</b></td>
+            <td>21.0</td>
+            <td>-</td>
+            <td>12.8</td>
+            <td>-</td>
+            <td>16.9</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>InstructBLIP-Vicuna-13b</b></td>
+            <td>22.2</td>
+            <td>-</td>
+            <td>15.6</td>
+            <td>-</td>
+            <td>18.9</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>Monkey-Chat</b></td>
+            <td>27.2</td>
+            <td>-</td>
+            <td>18.2</td>
+            <td>-</td>
+            <td>22.7</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>LLaVA-1.5-7b</b></td>
+            <td>32.8</td>
+            <td>-</td>
+            <td>22.8</td>
+            <td>-</td>
+            <td>27.8</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>LLaVA-1.5-13b</b></td>
+            <td>25.0</td>
+            <td>-</td>
+            <td>20.2</td>
+            <td>-</td>
+            <td>22.6</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><b>CLIP ViT-H-14-378-quickgelu</b></td>
+            <td>41.8</td>
+            <td>42.6</td>
+            <td><b>30.6</b></td>
+            <td><b>30.0</b></td>
+            <td>36.2</td>
+            <td>36.3</td>
+          </tr>
+          <tr>
+            <td><b>MetaCLIP ViT-H-14-quickgelu</b></td>
+            <td>36.6</td>
+            <td>35.4</td>
+            <td>24.2</td>
+            <td>25.2</td>
+            <td>30.4</td>
+            <td>30.3</td>
+          </tr>
+          <tr>
+            <td><b>Google MM Embedding</b></td>
+            <td><b>47.6</b></td>
+            <td><b>54.4</b></td>
+            <td>28.2</td>
+            <td>28.4</td>
+            <td><b>37.9</b></td>
+            <td><b>41.4</b></td>
+          </tr>
+        </table>
+        <p>🎉 To add your results to the leaderboard, please contact <a href="mailto:jdr53@cam.ac.uk">this email</a>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="container" style="margin-top: -10px; margin-bottom: -10px">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 scifibench" id="leaderboard">
+    <span class="scifibench" style="vertical-align: middle">Error Analysis</span>
+  </h1>
+  </div>
+  </div>
+</section>
+
+
+</section>
+    <div class="columns is-centered has-text-centered">
+      <!-- <div class="column is-full-width has-text-centered"> -->
+        <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p></p><p></p>
+          <div id="results-carousel" class="carousel results-carousel">
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/accuracy_vs_category.png" alt="category performance" width="50%"/> <img src="static/images/legend.png" alt="legend" width="30%"/>
+                <p>Model performance varies across different question categories, but relative rankings remain broadly consistent.
+                </p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/accuracy_vs_publication_year.png" alt="category performance" width="50%"/> <img src="static/images/legend.png" alt="legend" width="30%"/>
+                <p>There is no clear impact of publication year on performance.</p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/accuracy_vs_caption_length.png" alt="category performance" width="50%"/> <img src="static/images/legend.png" alt="legend" width="30%"/>
+                <p>We observe a slight macro-trend of decreasing performance as caption length increases.</p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/accuracy_vs_fig_size.png" alt="category performance" width="50%"/> <img src="static/images/legend.png" alt="legend" width="30%"/>
+                <p>There is no clear impact of figure resolution on performance.</p>
+              </div>
+            </div>
+          </div>
+          </div>
+          <p></p>
+        </section>
+
+<section class="hero is-light is-small">
+  <div class="container" style="margin-top: -10px; margin-bottom: -10px">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 scifibench" id="leaderboard">
+    <span class="scifibench" style="vertical-align: middle">Alignment</span>
+  </h1>
+  </div>
+  </div>
+</section>
+
+<!-- add extra vspace -->
+
+
+
+
+</section>
+    <div class="columns is-centered has-text-centered">
+      <!-- <div class="column is-full-width has-text-centered"> -->
+        <div class="justified" style="width: 80%; margin: 0 auto;">
+          <div style="height: 1cm;"></div>
+          <p>We created four augmentations of the baseline prompt, with different instructions and marked information. We evaluate the performance of each prompt set on a 500-question subset of the Figure → Caption task.
+            </p>
+                <img src="static/images/cheating_outline3.png" alt="category performance" width="100%"/>
+                <p> Baseline represents the standard prompt with no modification.
+                </p>
+                  <img src="static/images/cheating_bars_plot_new_gold.png" alt="category performance" width="100%"/>
+                  <p>Annotating an option as correct significantly changes the performance. The degree to which performance returns to the baseline when instructed to ignore the annotation gauges instruction-following ability. Some models are better at following instructions
+                  </p>
+            </div>
+            </div>
+        </section>
+
+<!-- bibtex -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@article{roberts2024scifibench,
+      title={SciFIBench: Benchmarking Large Multimodal Models for Scientific Figure Interpretation},
+      author={Roberts, Jonathan and Han, Kai and Houlsby, Neil and Albanie, Samuel},
+      journal={arXiv preprint arXiv:2405.08807},
+      year={2024}
+    }</code></pre>
+  </div>
+</section>
+
+<section>
+  <div class="section" id="org-banners" style="display:flex">
+    <a href="https://www.cam.ac.uk/" target="_blank" rel="external">
+        <img class="center-block org-banner" src="static/images/cam_logo.svg">
+    </a>
+    <a href="https://www.hku.hk/" target="blank" class="ext-link">
+        <img class="center-block org-banner" src="static/images/hku_logo.png">
+    </a>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <!-- <div class="container"> -->
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is adapted from <a href="https://nerfies.github.io/">Nerfies</a> and <a href="https://mathvista.github.io/">Math Vista</a>, licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</footer>
+
+</body>
+</html>
